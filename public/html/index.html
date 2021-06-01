@@ -1,0 +1,53 @@
+
+<div id="login-div">
+    <h1>Hello!</h1>
+    <p>This page has a login, it works in the sense that you can login. Just doesn't really change anything, if you log in...</p>
+    <p>But it's pretty neat!</p>
+
+    <label for="username">Username:</label>
+    <input id="username" type="text">
+
+    <label for="password">Password:</label>
+    <input id="password" type="password">
+    <br>
+    <br>
+    <button id="login" onclick="login()">Login</button>
+    <br>
+    <br>
+    <a href="/makelogin">Already have a login?</a>
+</div>
+<script>
+    let loginEnter = document.getElementById('password')
+    loginEnter.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') {
+            document.getElementById('login').click()
+        }
+    })
+
+    function login() {
+        let username = document.getElementById('username').value
+        let password = document.getElementById('password').value
+        let sendInfo = {username: username, password, password}
+        console.log(sendInfo)
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(sendInfo)
+        })
+        .then(response => response.text())
+        .then(string => {
+            let loginDiv = document.getElementById('login-div')
+            if (string === 'true') {
+                loginDiv.innerHTML = '<h1 style="font-size: 2em">Great succes!</h1>' +
+                    '<img src="https://i.imgur.com/XJyemeI.jpg" alt="Nice image should be here">' +
+                    '<h1 style="font-size: 2em">Very nice!</h1>'
+            }
+            else {
+                loginDiv.innerHTML += '<h2 style="color: red">Wrong password or username, try again!</h2>'
+            }
+        })
+        .catch(error => console.log('Error! ', error))
+    }
+</script>

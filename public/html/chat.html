@@ -1,0 +1,73 @@
+<script src="/socket.io/socket.io.js"></script>
+
+<h1>I work</h1>
+
+<div id="chat-div">
+    <div id="receive-div" style="color: white">
+
+    </div>
+    <div id="send-div" style="border-top: solid 2px ; color: white">
+        Send msg:
+        <br>
+        <textarea type="text" id="send-text" style="width: 45%"></textarea>
+        <button id="send-text-btn" onclick="sendMsg()">Send</button>
+        <br>
+        Change username:
+        <br>
+        <textarea type="text" id="send-user" style="width: 45%"></textarea>
+        <button id="send-user-btn" onclick="sendUser()">Send</button>
+    </div>
+
+</div>
+<h4>Chat commands:</h4>
+<ul>
+    <li>!link example.com</li>
+</ul>
+<script type="text/javascript" src="../javascripts/chatscripts.js"></script>
+<script>
+    scrollBot()
+    const socket = io()
+
+    function sendMsg(){
+        let msg = document.getElementById('send-text').value
+        console.log(msg.slice(0,5) === '!link')
+        console.log(msg.slice(0,5))
+        if (msg.slice(0,1) === '!') {
+            if (msg.slice(1,6) === 'link ') {
+
+                socket.emit('newLink', {'msg' : msg})
+            }
+        }
+        else {
+            socket.emit('newMsg', {'msg' : msg})
+        }
+        sendChat.value = ''
+        scrollBot()
+    }
+
+    function sendUser(){
+        let user = document.getElementById('send-user')
+        socket.emit('newUser', {'user' : user.value})
+        sendUsername.value = ''
+    }
+
+    socket.on('new-msg', (data) => {
+        let receiveDiv = document.getElementById('receive-div')
+        receiveDiv.innerHTML += (`<br><br><span class="user">${data.username}: </span><span class="message">${data.msg}</span>`)
+
+        scrollBot()
+
+        console.log(data)
+    })
+
+    socket.on('new-link', (data) => {
+        let receiveDiv = document.getElementById('receive-div')
+        receiveDiv.innerHTML += `<br><br><span class="user">${data.username}: </span><span class="message">
+        <a href="${data.msg.slice(6)}" target="_blank">${data.msg.slice(6)}</a></span>`
+
+        scrollBot()
+
+        console.log(data)
+    })
+
+</script>

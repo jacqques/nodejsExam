@@ -1,0 +1,29 @@
+{
+  "name": "exammaybe",
+  "version": "0.0.1",
+  "description": "Maybe the exam project, maybe not.",
+  "main": "index.js",
+  "scripts": {
+    "dev-start": "cross-env PORT=8080 nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":  "node index.js"
+  },
+  "author": "Jaco8748",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cheerio": "^1.0.0-rc.9",
+    "dotenv": "^9.0.2",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "forever": "^3.0.4",
+    "html-escaper": "^3.0.3",
+    "mysql": "^2.18.1",
+    "node-fetch": "^2.6.1",
+    "serve-favicon": "^2.5.0",
+    "socket.io": "^4.0.2"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  }
+}

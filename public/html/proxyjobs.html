@@ -1,0 +1,46 @@
+<div id="new-scrape-div">
+    <h1>I am a webscraper</h1>
+    <p>I webscrape jobposts from 'https://www.jobindex.dk' one page at a time! It is super effective!
+    You can't just go to their website. Only searches in 'storkøbenhavn', cuz I live here.
+    It's pretty useless truth be told (Don't tell the teacher pls).</p>
+    <label for="pages">Hvilken side?</label>
+    <input id="pages" type="text">
+
+    <label for="search">Søgeord</label>
+    <input id="search">
+
+    <button onclick="newSearch()">Ny søgning</button>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function newSearch() {
+            if (typeof jQuery == 'undefined'){
+                console.log('no jquery')
+            } else {
+                console.log($('#pages'))
+            }
+
+            let pages = document.getElementById('pages').value
+            let search = document.getElementById('search').value
+            let sendData = {}
+            sendData.pages = pages
+            sendData.search = search
+            console.log(sendData)
+            fetch('/proxytube', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(sendData)
+            })
+            .then(response => response.text())
+            .then(body => {
+                let current = document.getElementById('new-scrape-div')
+                document.getElementById('main-content').innerHTML =
+                    '<div id="new-scrape-div">' + current.innerHTML + '</div>' + `<p>Searched for word: ${sendData.search}</p>`
+                    + `<p>Searched on page: ${sendData.pages}</p>` + body
+            })
+            .catch(error => console.log('Error! ', error))
+        }
+    </script>
+</div>

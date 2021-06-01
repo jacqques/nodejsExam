@@ -1,0 +1,91 @@
+<div id="make-login">
+    <h1>Hello</h1>
+
+    <p>Only use passwords you dont mind losing here, no security promised.
+    No demands for password, make it 123 for all I care.</p>
+
+    <label for="username">Username : </label>
+    <input id="username" type="text">
+    <br>
+    <br>
+    <label for="password1">Password 1:</label>
+    <input id="password1" type="text">
+    <br>
+    <br>
+    <label for="password2">Password 2:</label>
+    <input id="password2" type="text">
+
+    <br>
+    <br>
+    <input type="submit" id="submit" onclick="newLogin()">
+</div>
+<script>
+    let downUser = document.getElementById('username')
+    let downPass1 = document.getElementById('password1')
+    let downPass2 = document.getElementById('password2')
+    let submit = document.getElementById('submit')
+    downUser.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') {
+            downPass1.focus()
+        }
+    })
+    downPass1.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') {
+            downPass2.focus()
+        }
+    })
+    downPass2.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') {
+            submit.click()
+        }
+    })
+
+    function newLogin() {
+
+        if (downPass2.value !== downPass1.value) {
+            // lets user know they fucked up
+            document.getElementById('main-content').innerHTML +=
+                '<p style="color: red">Passwords does not match</p>'
+            return
+        }
+        let sendInfo = {
+            username: downUser.value,
+            password: downPass1.value
+        }
+        fetch('/makelogin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(sendInfo)
+        })
+        .then(response => response.text())
+        .then(string => {
+            let makeLogin = document.getElementById('make-login')
+            console.log(string, typeof string)
+            if (string === 'success' && downPass1.value === '123') {
+                onetwothree()
+            }
+            else if (string === 'success') {
+                makeLogin.innerHTML += '<a href="/"><h2>Succes! Yay! Return to login?</h2></a> '
+            }
+            else {
+                console.log(string, typeof string)
+                makeLogin.innerHTML += '<h2>Something went wrong, sorry :( </h2>'
+                console.log('error!')
+            }
+            console.log(string)
+        })
+    }
+
+    function onetwothree() {
+        let makeLogin = document.getElementById('make-login')
+        makeLogin.innerHTML = '<h1>You actually did it?!</h1>' +
+            '<img src="https://en.meming.world/images/en/thumb/2/2c/Surprised_Pikachu_HD.jpg/300px-Surprised_Pikachu_HD.jpg"' +
+            'alt="Surprised pikachu img">' +
+            '<h1>What a madlad</h1>' +
+            '<h3>Succes I suppose...</h3>' +
+            '<a href="/">Return to login</a>'
+    }
+
+</script>
