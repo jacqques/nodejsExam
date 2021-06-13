@@ -7,13 +7,22 @@ const path = require('path')
 
 require('dotenv').config({path:path.join(__dirname, ".env")})
 
-app = express()
+const app = express()
 
 //Io setup
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 const escapeHTML = require('html-escaper').escape // no XXS plz
 
+// Log visiters: --------------------------------------------------------------------------------------
+const insertIP = 'insert ignore into ipLog (ip) values (?)'
+const ipLogger = (req, res, next) => {
+    connection.query(insertIP, [req.ip], (error, result, fields) => {
+        console.log(result, req.ip)
+    })
+    next()
+}
+app.use(ipLogger)
 // App uses: ------------------------------------------------------------------------------------------
 app.use(express.static('public'))
 app.use(favicon(__dirname + '/public/favicon.ico'))
@@ -45,7 +54,7 @@ io.on('connection', (socket) => {
         if (error) {
             throw new Error(error)
         }
-        result.forEach((data) => {
+        result.map((data) => {
             if (data.chat.slice(0,1) === '!') {
                 if (data.chat.slice(1,6) === 'link ') {
                     io.emit(io.emit('new-link', {msg: data.chat, username: data.username}))

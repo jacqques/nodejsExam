@@ -102,9 +102,14 @@ router.get('/proxytube', async (req, res) => {
 })
 
 router.post('/proxytube', async (req, res) => {
-    let result = await scrapey(req.body.pages, req.body.search)
-    console.log(req.body)
 
+    let result = 'Result of search was:'
+    req.body.pages = Math.floor(req.body.pages)
+
+    for (let i = 1; i <= req.body.pages; i++ ){
+        result += await scrapey(i, req.body.search)
+
+    }
     res.send(result)
 })
 

@@ -1,0 +1,64 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #efebff;
+}
+#content {
+    width: 900px;
+    margin: auto;
+}
+#main-content {
+    min-height: calc(100vh - 170px); /* fandme smart */
+    background-color: lightgray;
+    margin: auto;
+    padding: 25px;
+}
+/*Topnav only stuff*/
+#top-nav {
+    background-color: darkgreen;
+    padding: 20px;
+}
+#top-nav a {
+    background-color: forestgreen;
+    font-size: 1.5em;
+    border-right: solid 2px black;
+    padding: 15px;
+    margin-right: 10px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: black;
+}
+#top-nav a:hover {
+    background-color: mediumpurple;
+    border-right: hidden;
+    border-left: solid 2px black;
+}
+#footer-div {
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+}
+/* top nav end */
+/* chat div start */
+#chat-div {
+    height: 70vh;
+    background-color: black;
+
+}
+#receive-div {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 99% ;
+    height: 50vh;
+    padding: 15px;
+    word-wrap: break-word;
+}
+#receive-div p {
+    word-wrap: break-word;
+}
+#send-div {
+    padding: 15px;
+}
+.user {
+    color: mediumpurple;
+}
+
